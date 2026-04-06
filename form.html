@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Diagnostico IA - Estrategia IA</title>
+      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+      <style>
+                :root { --brand-blue: #042C4B; --brand-orange: #EE772F; }
+                body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #1E293B; padding: 20px; text-align: center; }
+                .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: left; max-width: 500px; margin: 0 auto; }
+                h1 { font-size: 24px; color: var(--brand-blue); margin-bottom: 20px; text-align: center; }
+                label { font-weight: 700; display: block; margin: 20px 0 10px; font-size: 14px; }
+                select, input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #E2E8F0; font-size: 16px; margin-bottom: 15px; }
+                button { background: var(--brand-orange); color: white; border: none; width: 100%; padding: 20px; border-radius: 15px; font-size: 18px; font-weight: 800; cursor: pointer; }
+                .success { display: none; color: #059669; font-weight: 700; margin-top: 20px; text-align: center; }
+            </style>
+  </head>head>
+  <body>
+        <div class="card">
+                  <div style="text-align: center; margin-bottom: 20px;">
+                                <div style="font-size: 40px; font-weight: 800; color: var(--brand-blue);">ESTRATEGIA IA</div>div>
+                                <div style="color: var(--brand-orange); font-weight: 700;">Simplifica tu Vida.</div>div>
+                  </div>div>
+                  <h1>Diagnostico en Vivo</h1>
+                <label>P1. De que pais nos acompanas?</label>
+                <select id="pais">
+                            <option value="Mexico" data-x="42" data-y="38">Mexico</option>option>
+                            <option value="Colombia" data-x="48" data-y="55">Colombia</option>option>
+                            <option value="Peru" data-x="46" data-y="65">Peru</option>option>
+                            <option value="Chile" data-x="52" data-y="82">Chile</option>option>
+                            <option value="Argentina" data-x="55" data-y="82">Argentina</option>option>
+                            <option value="Ecuador" data-x="47" data-y="58">Ecuador</option>option>
+                            <option value="CentroAmerica" data-x="44" data-y="45">Centro America / Caribe</option>option>
+                            <option value="Otros" data-x="50" data-y="50">Otros</option>option>
+                </select>
+                        <label>P2. Actividad Profesional Principal</label>
+                <select id="perfil">
+                            <option value="dueno">Dueno de Negocio</option>option>
+                            <option value="freelance">Freelance / Consultoria</option>option>
+                            <option value="publico">Servidor Publico / Otros</option>option>
+                </select>select>
+                <label>P3. Cuantas horas pierdes al dia en tareas mecanicas?</label>
+                <select id="horas">
+                            <option value="1-2h">1 a 2 horas</option>option>
+                            <option value="3-5h">3 a 5 horas</option>option>
+                            <option value="+5h">Mas de 5 horas</option>option>
+                </select>select>
+                <label>P4. Nivel de Experiencia IA (1 a 5)</label>
+                <input type="number" id="score" min="1" max="5" value="1">
+                <label>P5. Rango de Edad</label>
+                <select id="edad">
+                            <option value="mid">-35 a 45 anos</option>option>
+                            <option value="senior">46 a +60 anos</option>option>
+                </select>select>
+                <button onclick="sendData()">Enviar Diagnostico</button>button>
+                <div id="successMsg" class="success">Enviado! Mira la pantalla del Masterclass.</div>div>
+        </div>div>
+      <script>
+                const SUPABASE_URL = 'https://yfzqjlejrfmfhtyzubxe.supabase.co';
+                const SUPABASE_KEY = 'sb_publishable_LXbatr2q3jEN9ps0kfvchA_ggmTsttW';
+                function sendData() {
+                              const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                              const paisSelect = document.getElementById('pais');
+                              const selectedPais = paisSelect.options[paisSelect.selectedIndex];
+                              const diagnostico = {
+                                                perfil: document.getElementById('perfil').value,
+                                                horas: document.getElementById('horas').value,
+                                                rango_edad: document.getElementById('edad').value,
+                                                score: parseFloat(document.getElementById('score').value),
+                                                x: parseFloat(selectedPais.getAttribute('data-x')),
+                                                y: parseFloat(selectedPais.getAttribute('data-y'))
+                              };
+                              supabase.from('diagnosticos').insert([diagnostico]).then(res => {
+                                                document.getElementById('successMsg').style.display = 'block';
+                                                document.querySelector('button').disabled = true;
+                                                document.querySelector('button').innerText = 'Dato Enviado';
+                              });
+                }
+      </script>
+  </body>body>
+</html>html>
+      </script></label></label>
