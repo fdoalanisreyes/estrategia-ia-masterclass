@@ -586,8 +586,34 @@ const formData = {
     rango_edad: ''
 };
 
+// SAFE LOCALSTORAGE WRAPPER (Prevents crashes in Safari Private Mode & Embedded Mobile Webviews)
+const safeStorage = {
+    getItem: (key) => {
+        try {
+            return localStorage.getItem(key);
+        } catch (e) {
+            console.warn('LocalStorage blocked:', e);
+            return null;
+        }
+    },
+    setItem: (key, value) => {
+        try {
+            localStorage.setItem(key, value);
+        } catch (e) {
+            console.warn('LocalStorage blocked:', e);
+        }
+    },
+    removeItem: (key) => {
+        try {
+            localStorage.removeItem(key);
+        } catch (e) {
+            console.warn('LocalStorage blocked:', e);
+        }
+    }
+};
+
 // Check if user already submitted this survey in this session
-if (localStorage.getItem('estrategia_ia_survey_completed') === 'true') {
+if (safeStorage.getItem('estrategia_ia_survey_completed') === 'true') {
     showSuccessScreen();
 }
 
@@ -750,7 +776,7 @@ async function submitForm() {
         if (error) throw error;
 
         // Save status in local storage to prevent duplicate votes
-        localStorage.setItem('estrategia_ia_survey_completed', 'true');
+        safeStorage.setItem('estrategia_ia_survey_completed', 'true');
         showSuccessScreen();
 
     } catch (err) {
@@ -771,7 +797,7 @@ function showSuccessScreen() {
 }
 
 function resetSurvey() {
-    localStorage.removeItem('estrategia_ia_survey_completed');
+    safeStorage.removeItem('estrategia_ia_survey_completed');
     
     // Reset form state
     currentStep = 1;
