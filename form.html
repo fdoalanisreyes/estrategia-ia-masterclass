@@ -396,7 +396,7 @@
                 <div class="question-title">¿Desde qué país nos acompañas?</div>
                 <div class="question-desc">Selecciona tu país de procedencia para ubicarte en nuestro mapa en vivo.</div>
                 
-                <select id="paisSelect" class="select-input">
+                <select id="paisSelect" class="select-input" onchange="onPaisChange(this)">
                     <option value="" disabled selected>Elige tu país...</option>
                     <option value="México" data-x="20" data-y="20">México 🇲🇽</option>
                     <option value="Colombia" data-x="30" data-y="45">Colombia 🇨🇴</option>
@@ -450,7 +450,7 @@
                 </div>
 
                 <div class="text-input-wrapper" id="otroInputWrapper">
-                    <input type="text" id="otroTextInput" class="text-input" placeholder="Escribe tu actividad profesional aquí...">
+                    <input type="text" id="otroTextInput" class="text-input" oninput="validateStep2()" placeholder="Escribe tu actividad profesional aquí...">
                 </div>
 
                 <div class="nav-buttons">
@@ -586,36 +586,23 @@ const formData = {
     rango_edad: ''
 };
 
-// INITIALIZE LISTENER FOR SELECT CHANGE
-function initForm() {
-    // Check if user already submitted this survey in this session
-    if (localStorage.getItem('estrategia_ia_survey_completed') === 'true') {
-        showSuccessScreen();
-        return;
-    }
+// Check if user already submitted this survey in this session
+if (localStorage.getItem('estrategia_ia_survey_completed') === 'true') {
+    showSuccessScreen();
+}
 
-    const selectPais = document.getElementById('paisSelect');
-    if (selectPais) {
-        selectPais.addEventListener('change', () => {
-            const selectedOption = selectPais.options[selectPais.selectedIndex];
-            formData.pais = selectedOption.value;
-            formData.x = parseFloat(selectedOption.getAttribute('data-x'));
-            formData.y = parseFloat(selectedOption.getAttribute('data-y'));
-            
-            const btn = document.getElementById('btnNext1');
-            if (btn) btn.disabled = !formData.pais;
-        });
-    }
-
-    // Checkbox "Otros" listener
-    const otroInput = document.getElementById('otroTextInput');
-    if (otroInput) {
-        otroInput.addEventListener('input', () => {
-            validateStep2();
-        });
+// HANDLER FOR SELECT CHANGE (INLINE)
+function onPaisChange(selectElement) {
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    if (selectedOption) {
+        formData.pais = selectedOption.value;
+        formData.x = parseFloat(selectedOption.getAttribute('data-x') || '0');
+        formData.y = parseFloat(selectedOption.getAttribute('data-y') || '0');
+        
+        const btn = document.getElementById('btnNext1');
+        if (btn) btn.disabled = !formData.pais;
     }
 }
-initForm();
 
 // MULTI-SELECT (CHECKBOXES)
 function toggleCheckbox(card) {
