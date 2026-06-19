@@ -239,26 +239,47 @@
             border-color: var(--brand-blue);
         }
 
-        /* Dropdown styling */
-        .select-input {
-            width: 100%;
-            padding: 16px;
-            border-radius: 16px;
-            border: 2px solid var(--border-color);
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--brand-blue);
-            outline: none;
-            background: white url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23042C4B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 16px center;
-            background-size: 18px;
-            appearance: none;
-            cursor: pointer;
-            transition: border-color 0.2s ease;
-            margin-bottom: 24px;
+        /* Country Grid styling */
+        .country-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            max-height: 270px;
+            overflow-y: auto;
+            padding-right: 6px;
+            margin-bottom: 8px;
         }
 
-        .select-input:focus {
-            border-color: var(--brand-orange);
+        /* Custom Scrollbar for premium feeling */
+        .country-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .country-grid::-webkit-scrollbar-track {
+            background: #F1F5F9;
+            border-radius: 3px;
+        }
+        .country-grid::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 3px;
+        }
+
+        .country-card {
+            padding: 12px 14px !important;
+            font-size: 14px !important;
+            border-radius: 14px !important;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border: 2px solid var(--border-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .country-card .option-indicator {
+            width: 16px;
+            height: 16px;
         }
 
         /* Buttons Navigation */
@@ -396,20 +417,52 @@
                 <div class="question-title">¿Desde qué país nos acompañas?</div>
                 <div class="question-desc">Selecciona tu país de procedencia para ubicarte en nuestro mapa en vivo.</div>
                 
-                <select id="paisSelect" class="select-input" onchange="onPaisChange(this)">
-                    <option value="" disabled selected>Elige tu país...</option>
-                    <option value="México" data-x="20" data-y="20">México 🇲🇽</option>
-                    <option value="Colombia" data-x="30" data-y="45">Colombia 🇨🇴</option>
-                    <option value="Perú" data-x="32" data-y="60">Perú 🇵🇪</option>
-                    <option value="Chile" data-x="38" data-y="80">Chile 🇨🇱</option>
-                    <option value="Argentina" data-x="48" data-y="82">Argentina 🇦🇷</option>
-                    <option value="Ecuador" data-x="28" data-y="52">Ecuador 🇪🇨</option>
-                    <option value="Venezuela" data-x="40" data-y="42">Venezuela 🇻🇪</option>
-                    <option value="Bolivia" data-x="42" data-y="62">Bolivia 🇧🇴</option>
-                    <option value="CentroAmérica" data-x="22" data-y="38">Centro América / Caribe 🌎</option>
-                    <option value="España" data-x="85" data-y="20">España 🇪🇸</option>
-                    <option value="Otros" data-x="50" data-y="50">Otros 🗺️</option>
-                </select>
+                <div class="country-grid">
+                    <div class="option-card country-card" onclick="selectCountry(this, 'México', 20, 20)">
+                        <span>🇲🇽 México</span>
+                        <div class="option-indicator"></div>
+                    </div>
+                    <div class="option-card country-card" onclick="selectCountry(this, 'Colombia', 30, 45)">
+                        <span>🇨🇴 Colombia</span>
+                        <div class="option-indicator"></div>
+                    </div>
+                    <div class="option-card country-card" onclick="selectCountry(this, 'Perú', 32, 60)">
+                        <span>🇵🇪 Perú</span>
+                        <div class="option-indicator"></div>
+                    </div>
+                    <div class="option-card country-card" onclick="selectCountry(this, 'Chile', 38, 80)">
+                        <span>🇨🇱 Chile</span>
+                        <div class="option-indicator"></div>
+                    </div>
+                    <div class="option-card country-card" onclick="selectCountry(this, 'Argentina', 48, 82)">
+                        <span>🇦🇷 Argentina</span>
+                        <div class="option-indicator"></div>
+                    </div>
+                    <div class="option-card country-card" onclick="selectCountry(this, 'Ecuador', 28, 52)">
+                        <span>🇪🇨 Ecuador</span>
+                        <div class="option-indicator"></div>
+                    </div>
+                    <div class="option-card country-card" onclick="selectCountry(this, 'Venezuela', 40, 42)">
+                        <span>🇻🇪 Venezuela</span>
+                        <div class="option-indicator"></div>
+                    </div>
+                    <div class="option-card country-card" onclick="selectCountry(this, 'Bolivia', 42, 62)">
+                        <span>🇧🇴 Bolivia</span>
+                        <div class="option-indicator"></div>
+                    </div>
+                    <div class="option-card country-card" onclick="selectCountry(this, 'CentroAmérica', 22, 38)">
+                        <span>🌎 CentroAmérica</span>
+                        <div class="option-indicator"></div>
+                    </div>
+                    <div class="option-card country-card" onclick="selectCountry(this, 'España', 85, 20)">
+                        <span>🇪🇸 España</span>
+                        <div class="option-indicator"></div>
+                    </div>
+                    <div class="option-card country-card" onclick="selectCountry(this, 'Otros', 50, 50)">
+                        <span>🗺️ Otros</span>
+                        <div class="option-indicator"></div>
+                    </div>
+                </div>
 
                 <div class="nav-buttons">
                     <button class="btn btn-primary" id="btnNext1" disabled onclick="nextStep(2)">Siguiente →</button>
@@ -617,17 +670,21 @@ if (safeStorage.getItem('estrategia_ia_survey_completed') === 'true') {
     showSuccessScreen();
 }
 
-// HANDLER FOR SELECT CHANGE (INLINE)
-function onPaisChange(selectElement) {
-    const selectedOption = selectElement.options[selectElement.selectedIndex];
-    if (selectedOption) {
-        formData.pais = selectedOption.value;
-        formData.x = parseFloat(selectedOption.getAttribute('data-x') || '0');
-        formData.y = parseFloat(selectedOption.getAttribute('data-y') || '0');
-        
-        const btn = document.getElementById('btnNext1');
-        if (btn) btn.disabled = !formData.pais;
-    }
+// HANDLER FOR SELECTING COUNTRY (INLINE CARDS)
+function selectCountry(card, name, x, y) {
+    const countryCards = document.querySelectorAll('.country-card');
+    countryCards.forEach(c => c.classList.remove('selected'));
+    
+    card.classList.add('selected');
+    
+    formData.pais = name;
+    formData.x = parseFloat(x);
+    formData.y = parseFloat(y);
+    
+    const btn = document.getElementById('btnNext1');
+    if (btn) btn.disabled = false;
+    
+    setTimeout(() => nextStep(2), 300);
 }
 
 // MULTI-SELECT (CHECKBOXES)
@@ -814,7 +871,6 @@ function resetSurvey() {
     cards.forEach(c => c.classList.remove('selected'));
     
     // Reset selects and inputs
-    document.getElementById('paisSelect').selectedIndex = 0;
     document.getElementById('otroTextInput').value = '';
     document.getElementById('otroInputWrapper').style.display = 'none';
     
