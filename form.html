@@ -587,7 +587,7 @@ const formData = {
 };
 
 // INITIALIZE LISTENER FOR SELECT CHANGE
-document.addEventListener('DOMContentLoaded', () => {
+function initForm() {
     // Check if user already submitted this survey in this session
     if (localStorage.getItem('estrategia_ia_survey_completed') === 'true') {
         showSuccessScreen();
@@ -595,20 +595,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const selectPais = document.getElementById('paisSelect');
-    selectPais.addEventListener('change', () => {
-        const selectedOption = selectPais.options[selectPais.selectedIndex];
-        formData.pais = selectedOption.value;
-        formData.x = parseFloat(selectedOption.getAttribute('data-x'));
-        formData.y = parseFloat(selectedOption.getAttribute('data-y'));
-        
-        document.getElementById('btnNext1').disabled = !formData.pais;
-    });
+    if (selectPais) {
+        selectPais.addEventListener('change', () => {
+            const selectedOption = selectPais.options[selectPais.selectedIndex];
+            formData.pais = selectedOption.value;
+            formData.x = parseFloat(selectedOption.getAttribute('data-x'));
+            formData.y = parseFloat(selectedOption.getAttribute('data-y'));
+            
+            const btn = document.getElementById('btnNext1');
+            if (btn) btn.disabled = !formData.pais;
+        });
+    }
 
     // Checkbox "Otros" listener
-    document.getElementById('otroTextInput').addEventListener('input', () => {
-        validateStep2();
-    });
-});
+    const otroInput = document.getElementById('otroTextInput');
+    if (otroInput) {
+        otroInput.addEventListener('input', () => {
+            validateStep2();
+        });
+    }
+}
+initForm();
 
 // MULTI-SELECT (CHECKBOXES)
 function toggleCheckbox(card) {
