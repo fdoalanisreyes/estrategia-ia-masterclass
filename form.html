@@ -557,7 +557,22 @@
 // SUPABASE CONFIGURATION
 const SUPABASE_URL = 'https://pbgwtsgoyptmgcvpehrq.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBiZ3d0c2dveXB0bWdjdnBlaHJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3OTYwMTgsImV4cCI6MjA5MDM3MjAxOH0.TPXGMzn69VMbgMjlOszpQS4TwT4Ylp0HOYwJPcW1qlI';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let supabase = null;
+function getSupabaseClient() {
+    if (!supabase) {
+        if (window.supabase) {
+            try {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            } catch (err) {
+                console.error('Error al inicializar cliente de Supabase:', err);
+            }
+        } else {
+            console.error('La librería de Supabase no ha cargado aún.');
+        }
+    }
+    return supabase;
+}
 
 // STATE VARIABLES
 let currentStep = 1;
@@ -722,7 +737,12 @@ async function submitForm() {
     try {
         console.log('Sending diagnosis data:', formData);
         
-        const { data, error } = await supabase
+        const client = getSupabaseClient();
+        if (!client) {
+            throw new Error('Supabase no está inicializado. Verifica tu conexión a internet.');
+        }
+        
+        const { data, error } = await client
             .from('diagnosticos')
             .insert([{
                 perfil: formData.perfil,
